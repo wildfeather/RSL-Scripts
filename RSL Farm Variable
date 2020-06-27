@@ -1,0 +1,44 @@
+
+F12:: MsgBox, %Counter%
+
+F3::Pause
+
+F4::
+Toggle := !Toggle
+WinActivate, Raid ;activates Raid window
+Winmove, Raid, , 600, 200, 1300, 800 ;standardizes the size and location of the raid window
+loop
+{
+If not Toggle
+        break
+    WinGetActiveTitle, Title ;gets the title
+	WinActivate, Raid ;activates raid window
+	GoSub F5
+	WinActivate, %Title%
+	sleep 5000
+}
+Return
+
+
+F5::
+MouseMove, 670, 700
+sleep 1000
+PixelGetColor, foundColor, 600, 750
+if (Counter < 108 ) ; number of times the program will restart the run
+	{
+	if(foundColor = 0x8E6C00)
+		{
+		ControlSend, , r, Raid
+		sleep 1000
+		MouseMove, 600, 650
+		Counter++
+		}
+	}
+else 
+	{
+	MsgBox, Farming Complete!
+	Pause
+	}
+Return
+
+
