@@ -1,0 +1,48 @@
+
+; Replay button color is 0x8E6C00
+; Replay button location is 680, 690 (window)
+; Mouse rest color is 0x1E211E (victory banner)
+; Mouse rest position is 811, 94 (window)
+Counter = 0
+
+F12:: MsgBox, %Counter% ;press f12 to see how many loops have been done
+
+F3::Pause ;pauses 
+
+F4::
+Toggle := !Toggle
+
+WinActivate, Raid ;activates Raid window
+Winmove, Raid, , 600, 200, 1300, 800 ;standardizes the size and location of the raid window
+loop
+{
+If not Toggle ;lets you break the loop while it is rnning
+        break
+    WinGetActiveTitle, Title ;gets the title
+	WinActivate, Raid ;activates raid window
+	GoSub F5 ;activated the F5 subroutine
+	WinActivate, %Title%
+	sleep 5000
+}
+Return
+
+F5::
+MouseMove, 670, 700 ; moves the mouse to the replay button
+sleep 1000
+PixelGetColor, foundColor, 670, 700 ; checks to see if the button is the right color
+if (Counter < 11) ;
+	{
+	if(foundColor = 0xA98B14) ;finds the color of the replay button
+		{
+		ControlSend, , r, Raid ;send the command to the raid window
+		sleep 1000
+		MouseMove, 700, 700 ;moves the mouse so you know it did somethinh
+		Counter++ ;increases the counter by 1
+		}
+	}
+else 
+	{
+	MsgBox, Farming Complete!
+	Pause
+	}
+Return
